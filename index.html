@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="index, follow">
+  <meta name="GPTBot" content="noindex, nofollow">
+  <meta name="ClaudeBot" content="noindex, nofollow">
+  <meta name="Google-Extended" content="noindex, nofollow">
+  <meta name="PerplexityBot" content="noindex, nofollow">
+  <meta name="CCBot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#121216">
+  <title>#シミュグラ４ 招待状メーカー</title>
+  <link rel="preconnect" href="https://fontsapi.zeoseven.com">
+  <link rel="stylesheet" href="https://fontsapi.zeoseven.com/671/main/result.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="appbar">
+    <div>
+      <div class="eyebrow">INVITATION CARD MAKER</div>
+      <h1>#シミュグラ４ 招待状メーカー</h1>
+    </div>
+    <div class="app-actions">
+      <button class="icon-btn" id="undoBtn" title="元に戻す" aria-label="元に戻す"><i class="fa-solid fa-rotate-left"></i></button>
+      <button class="icon-btn" id="redoBtn" title="やり直す" aria-label="やり直す"><i class="fa-solid fa-rotate-right"></i></button>
+      <button class="download-btn" id="downloadBtn"><i class="fa-solid fa-download"></i><span>画像を書き出す</span></button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="preview-panel">
+      <div class="preview-head">
+        <div>
+          <strong>プレビュー</strong>
+          <span>1280 × 720 / 16:9</span>
+        </div>
+        <span class="save-state" id="saveState">自動保存中</span>
+      </div>
+      <div class="canvas-wrap" id="canvasWrap">
+        <div class="canvas-stage" id="canvasStage">
+          <canvas id="canvas" width="1280" height="720"></canvas>
+        </div>
+      </div>
+      <div class="preview-tip">
+        <i class="fa-solid fa-up-down-left-right"></i> プロフ画像・名前・ルビはプレビュー上でドラッグして移動できます。プロフ画像は四隅をドラッグして拡大・縮小できます。<br><strong style="font-weight: bold;">なお、#シミュグラ４ の関係者以外使用禁止です。</strong>
+      </div>
+    </section>
+
+    <aside class="control-panel">
+      <div class="mobile-tabs" role="tablist">
+        <button class="tab active" data-tab="profile" role="tab">プロフ</button>
+        <button class="tab" data-tab="text" role="tab">名前</button>
+        <button class="tab" data-tab="settings" role="tab">設定</button>
+      </div>
+
+      <div class="tab-content active" data-panel="profile">
+        <div class="section-title"><span>01</span> プロフィール画像</div>
+        <label class="upload-card" for="profileInput">
+          <div class="upload-icon"><i class="fa-solid fa-plus"></i></div>
+          <div>
+            <b>画像をアップロード</b>
+            <small>JPG / PNG / WebP</small>
+          </div>
+        </label>
+        <input id="profileInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+
+        <div class="tool-row">
+          <button class="tool-btn" id="centerProfile"><i class="fa-solid fa-crosshairs"></i><span>中央に戻す</span></button>
+          <button class="tool-btn danger" id="removeProfile"><i class="fa-solid fa-trash-can"></i><span>画像を削除</span></button>
+        </div>
+
+        <div class="control-card">
+          <label class="range-label"><span>拡大・縮小</span><output id="scaleValue">100%</output></label>
+          <input id="scaleRange" type="range" min="25" max="300" value="100" step="1">
+        </div>
+
+        <div class="control-card">
+          <div class="mini-title">位置</div>
+          <div class="nudge-grid">
+            <span></span><button data-dx="0" data-dy="-5" title="上へ"><i class="fa-solid fa-chevron-up"></i></button><span></span>
+            <button data-dx="-5" data-dy="0" title="左へ"><i class="fa-solid fa-chevron-left"></i></button><button id="nudgeCenter" title="中央"><i class="fa-solid fa-crosshairs"></i></button><button data-dx="5" data-dy="0" title="右へ"><i class="fa-solid fa-chevron-right"></i></button>
+            <span></span><button data-dx="0" data-dy="5" title="下へ"><i class="fa-solid fa-chevron-down"></i></button><span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" data-panel="text">
+        <div class="section-title"><span>02</span> 名前・ルビ</div>
+        <div class="field">
+          <label for="nameInput">名前</label>
+          <input id="nameInput" type="text" maxlength="32" placeholder="名前を入力">
+        </div>
+        <div class="field">
+          <label for="rubyInput">ルビ</label>
+          <input id="rubyInput" type="text" maxlength="32" placeholder="よみがな">
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label for="nameSize">名前サイズ</label>
+            <input id="nameSize" type="number" min="12" max="160">
+          </div>
+          <div class="field">
+            <label for="rubySize">ルビサイズ</label>
+            <input id="rubySize" type="number" min="8" max="80">
+          </div>
+        </div>
+        <div class="field">
+          <label for="textColor">文字色</label>
+          <div class="color-line"><input id="textColor" type="color" value="#fff8e8"><span id="textColorHex">#fff8e8</span></div>
+        </div>
+        <div class="tool-row">
+          <button class="tool-btn" id="resetText"><i class="fa-solid fa-arrow-rotate-left"></i><span>初期位置に戻す</span></button>
+        </div>
+        <p class="hint"><i class="fa-solid fa-hand-pointer"></i> プレビュー上で名前とルビをそれぞれドラッグして位置を調整できます。ルビは空欄でも使用できます。</p>
+      </div>
+
+      <div class="tab-content" data-panel="settings">
+        <div class="section-title"><span>03</span> 書き出し・保存</div>
+        <button class="download-btn large" id="downloadBtn2"><i class="fa-solid fa-download"></i><span>PNGをダウンロード</span></button>
+        <button class="tool-btn full" id="resetAll"><i class="fa-solid fa-rotate-left"></i><span>最初からやり直す</span></button>
+        <p class="hint">編集内容・アップロード画像はこのブラウザ内に自動保存されます。別端末や別ブラウザには同期されません。</p>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
